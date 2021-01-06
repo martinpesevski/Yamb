@@ -7,7 +7,7 @@
 
 import UIKit
 
-class YambViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class YambViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, DiceSelectionDelegate {
 
     @IBOutlet var yambCollectionView: UICollectionView!
     
@@ -45,11 +45,22 @@ class YambViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? YambCell else { return }
-        cell.setupDiceRolls([DiceRoll(rawValue: Int.random(in: 1...6))!,
-                             DiceRoll(rawValue: Int.random(in: 1...6))!,
-                             DiceRoll(rawValue: Int.random(in: 1...6))!,
-                             DiceRoll(rawValue: Int.random(in: 1...6))!,
-                             DiceRoll(rawValue: Int.random(in: 1...6))!,
-                             DiceRoll(rawValue: Int.random(in: 1...6))!])
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let diceSelection = storyboard.instantiateViewController(withIdentifier: "diceSelection") as? DiceSelectionViewController else { return }
+        diceSelection.cell = cell
+        diceSelection.delegate = self
+        self.present(diceSelection, animated: true)
+        
+//        performSegue(withIdentifier: "showDiceSelect", sender: self)
+//        cell.setupDiceRolls([DiceRoll(rawValue: Int.random(in: 1...6))!,
+//                             DiceRoll(rawValue: Int.random(in: 1...6))!,
+//                             DiceRoll(rawValue: Int.random(in: 1...6))!,
+//                             DiceRoll(rawValue: Int.random(in: 1...6))!,
+//                             DiceRoll(rawValue: Int.random(in: 1...6))!,
+//                             DiceRoll(rawValue: Int.random(in: 1...6))!])
+    }
+    
+    func didSelect(_ diceRolls: [DiceRoll], cell: YambCell) {
+        cell.setupDiceRolls(diceRolls)
     }
 }

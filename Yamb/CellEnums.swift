@@ -5,7 +5,7 @@
 //  Created by Martin Peshevski on 5.1.21.
 //
 
-import Foundation
+import UIKit
 
 let thrillingModifier = 20
 let straightModifier = 30
@@ -98,6 +98,17 @@ enum DiceRoll: Int {
     case four
     case five
     case six
+    
+    var image: UIImage {
+        switch self {
+        case .one: return UIImage(named: "dice1") ?? UIImage()
+        case .two: return UIImage(named: "dice2") ?? UIImage()
+        case .three: return UIImage(named: "dice3") ?? UIImage()
+        case .four: return UIImage(named: "dice4") ?? UIImage()
+        case .five: return UIImage(named: "dice5") ?? UIImage()
+        case .six: return UIImage(named: "dice6") ?? UIImage()
+        }
+    }
 }
 
 extension Collection where Element == DiceRoll {

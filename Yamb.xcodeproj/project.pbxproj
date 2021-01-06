@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,6 +15,7 @@
 		C798F6D9259E4FB400511286 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C798F6D7259E4FB400511286 /* LaunchScreen.storyboard */; };
 		C798F6E325A4B94200511286 /* YambCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C798F6E225A4B94200511286 /* YambCell.swift */; };
 		C798F6E625A4BC8800511286 /* CellEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = C798F6E525A4BC8800511286 /* CellEnums.swift */; };
+		C7FEC90F25A5F69D0021BBEE /* DiceSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FEC90E25A5F69D0021BBEE /* DiceSelectionViewController.swift */; };
 		E4FDA77C9C4236E3ACE4A31A /* Pods_Yamb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02FAFAD121873F3F6B11BD20 /* Pods_Yamb.framework */; };
 /* End PBXBuildFile section */
 
@@ -32,6 +33,7 @@
 		C798F6DA259E4FB400511286 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C798F6E225A4B94200511286 /* YambCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YambCell.swift; sourceTree = "<group>"; };
 		C798F6E525A4BC8800511286 /* CellEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellEnums.swift; sourceTree = "<group>"; };
+		C7FEC90E25A5F69D0021BBEE /* DiceSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceSelectionViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,7 +62,6 @@
 				568189D519DF34EF31B3FE7F /* Pods-Yamb.debug.xcconfig */,
 				33ABF3E6F290DDA06ED42583 /* Pods-Yamb.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -88,6 +89,7 @@
 				C798F6CC259E4FB100511286 /* AppDelegate.swift */,
 				C798F6CE259E4FB100511286 /* SceneDelegate.swift */,
 				C798F6D0259E4FB100511286 /* YambViewController.swift */,
+				C7FEC90E25A5F69D0021BBEE /* DiceSelectionViewController.swift */,
 				C798F6E225A4B94200511286 /* YambCell.swift */,
 				C798F6E525A4BC8800511286 /* CellEnums.swift */,
 				C798F6D2259E4FB100511286 /* Main.storyboard */,
@@ -214,6 +216,7 @@
 			files = (
 				C798F6D1259E4FB100511286 /* YambViewController.swift in Sources */,
 				C798F6CD259E4FB100511286 /* AppDelegate.swift in Sources */,
+				C7FEC90F25A5F69D0021BBEE /* DiceSelectionViewController.swift in Sources */,
 				C798F6E325A4B94200511286 /* YambCell.swift in Sources */,
 				C798F6CF259E4FB100511286 /* SceneDelegate.swift in Sources */,
 				C798F6E625A4BC8800511286 /* CellEnums.swift in Sources */,
