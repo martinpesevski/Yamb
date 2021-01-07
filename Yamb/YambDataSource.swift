@@ -1,0 +1,145 @@
+//
+//  YambDataSource.swift
+//  Yamb
+//
+//  Created by Martin Peshevski on 7.1.21.
+//
+
+import UIKit
+
+enum FieldType {
+    case Yamb
+    case Result
+    case Empty
+}
+
+class YambDataSource {
+    let columns: [Column]
+    
+    var topFieldsCount: Int { 6 * columns.count }
+    var topResultsCount: Int { columns.count }
+    var middleFieldsCount: Int { 2 * columns.count }
+    var middleResultsCount: Int { columns.count }
+    var bottomFieldsCount: Int { 5 * columns.count }
+    var bottomResultsCount: Int { columns.count }
+    
+    lazy var fieldsDict: [Int: [Field]] = {
+        var topFields: [Field] = []
+        for i in 0..<(topFieldsCount + topResultsCount) {
+            let indexPath = IndexPath(row: i, section: 0)
+            let fieldType: FieldType = i < topFieldsCount ? .Yamb : .Result
+            
+            topFields.append(Field(row: Row.fromIndexPath(indexPath, numberOfColumns: columns.count),
+                                   type: fieldType,
+                                   column: columns.columnFrom(indexPath: indexPath),
+                                   indexPath: indexPath))
+        }
+        
+        var middleFields: [Field] = []
+        for i in 0..<(middleFieldsCount + middleResultsCount) {
+            let indexPath = IndexPath(row: i, section: 1)
+            let fieldType: FieldType = i < middleFieldsCount ? .Yamb : .Result
+            middleFields.append(Field(row: Row.fromIndexPath(indexPath, numberOfColumns: columns.count),
+                                      type: fieldType,
+                                      column: columns.columnFrom(indexPath: indexPath),
+                                      indexPath: indexPath))
+        }
+        
+        var bottomFields: [Field] = []
+        for i in 0..<(bottomFieldsCount + bottomResultsCount) {
+            let indexPath = IndexPath(row: i, section: 2)
+            let fieldType: FieldType = i < bottomFieldsCount ? .Yamb : .Result
+            bottomFields.append(Field(row: Row.fromIndexPath(indexPath, numberOfColumns: columns.count),
+                                      type: fieldType,
+                                      column: columns.columnFrom(indexPath: indexPath),
+                                      indexPath: indexPath))
+        }
+        return [0:topFields, 1:middleFields, 2:bottomFields]
+    }()
+    
+    var totalScore: Int {
+        var sumTop = 0
+        var sumMiddle = 0
+        var sumBottom = 0
+
+        fieldsDict[0]?.filter { $0.type == .Result }.forEach { sumTop += $0.score ?? 0 }
+        fieldsDict[1]?.filter { $0.type == .Result }.forEach { sumMiddle += $0.score ?? 0 }
+        fieldsDict[2]?.filter { $0.type == .Result }.forEach { sumBottom += $0.score ?? 0 }
+
+        return sumTop + sumMiddle + sumBottom
+    }
+    
+    func fieldTypeFor(indexPath: IndexPath) -> FieldType{
+        if indexPath.section == 0 {
+            return indexPath.item < topFieldsCount ? .Yamb : .Result
+        } else if indexPath.section == 1 {
+            return indexPath.item < middleFieldsCount ? .Yamb : .Result
+        } else if indexPath.section == 2 {
+            return indexPath.item < bottomFieldsCount ? .Yamb : .Result
+        }
+        
+        return .Empty
+    }
+    
+    func columnResult(column: Column, section: Int) -> Int {
+        guard let fields = fieldsDict[section], columns.contains(column) else { return 0 }
+        
+        if section == 0 || section == 2 {
+            var sum = 0
+            fields.filter { $0.column == column && $0.type != .Result }.forEach{ sum += $0.score ?? 0 }
+            if section == 0 && sum >= 60 { sum += 30 }
+            return sum
+        } else if section == 1 {
+            guard let fieldsTop = fieldsDict[0], columns.contains(column),
+                  let ones = fieldsTop.filter({ $0.row == .ones && $0.column == column }).first else { return 0 }
+            var sum = 0
+            let fields = fields.filter { $0.column == column && $0.type != .Result }
+            for field in fields {
+                guard let score = field.score else { return 0 }
+                sum = field.row == .min ? (sum - score) : (sum + score)
+            }
+    
+            sum *= ones.score ?? 0
+            if sum >= 60 { sum += 30 }
+            return sum
+        }
+        return 0
+    }
+    
+    func setScore(diceRolls: [DiceRoll], indexPath: IndexPath) {
+        guard let row = fieldsDict[indexPath.section]?[indexPath.item].row else { return }
+        let column = columns.columnFrom(indexPath: indexPath)
+        fieldsDict[indexPath.section]?[indexPath.item].score = row.calculate(diceRolls: diceRolls)
+        scoreField(column: column, section: indexPath.section)?.score = columnResult(column: column, section: indexPath.section)
+        if row == .ones {
+            scoreField(column: column, section: 1)?.score = columnResult(column: column, section: 1)
+        }
+    }
+    
+    func scoreField(column: Column, section: Int) -> Field? {
+        guard let fields = fieldsDict[section] else { return nil }
+        for field in fields where (field.column == column && field.type == .Result) {
+            return field
+        }
+        return nil
+    }
+    
+    init(columns: [Column]) {
+        self.columns = columns
+    }
+}
+
+class Field {
+    var row: Row?
+    var type: FieldType
+    var column: Column
+    var indexPath: IndexPath
+    var score: Int?
+    
+    init(row: Row?, type: FieldType, column: Column, indexPath: IndexPath) {
+        self.row = row
+        self.type = type
+        self.column = column
+        self.indexPath = indexPath
+    }
+}

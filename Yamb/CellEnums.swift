@@ -70,21 +70,22 @@ enum Row {
     
     static func fromIndexPath(_ indexPath: IndexPath, numberOfColumns: Int) -> Row? {
         if indexPath.section == 0 {
-            if indexPath.row / numberOfColumns == 0 { return .ones}
-            if indexPath.row / numberOfColumns == 1 { return .twos}
-            if indexPath.row / numberOfColumns == 2 { return .threes}
-            if indexPath.row / numberOfColumns == 3 { return .fours}
-            if indexPath.row / numberOfColumns == 4 { return .fives}
-            if indexPath.row / numberOfColumns == 5 { return .sixes}
+            if indexPath.item / numberOfColumns == 0 { return .ones}
+            if indexPath.item / numberOfColumns == 1 { return .twos}
+            if indexPath.item / numberOfColumns == 2 { return .threes}
+            if indexPath.item / numberOfColumns == 3 { return .fours}
+            if indexPath.item / numberOfColumns == 4 { return .fives}
+            if indexPath.item / numberOfColumns == 5 { return .sixes}
+            if indexPath.item / numberOfColumns == 6 { return .sixes}
         } else if indexPath.section == 1 {
-            if indexPath.row / numberOfColumns == 0 { return .max}
-            if indexPath.row / numberOfColumns == 1 { return .min}
+            if indexPath.item / numberOfColumns == 0 { return .max}
+            if indexPath.item / numberOfColumns == 1 { return .min}
         } else if indexPath.section == 2 {
-            if indexPath.row / numberOfColumns == 0 { return .thrilling}
-            if indexPath.row / numberOfColumns == 1 { return .straight}
-            if indexPath.row / numberOfColumns == 2 { return .full}
-            if indexPath.row / numberOfColumns == 3 { return .poker}
-            if indexPath.row / numberOfColumns == 4 { return .yamb}
+            if indexPath.item / numberOfColumns == 0 { return .thrilling}
+            if indexPath.item / numberOfColumns == 1 { return .straight}
+            if indexPath.item / numberOfColumns == 2 { return .full}
+            if indexPath.item / numberOfColumns == 3 { return .poker}
+            if indexPath.item / numberOfColumns == 4 { return .yamb}
         }
         
         return nil
@@ -108,6 +109,13 @@ enum DiceRoll: Int {
         case .five: return UIImage(named: "dice5") ?? UIImage()
         case .six: return UIImage(named: "dice6") ?? UIImage()
         }
+    }
+}
+
+extension Collection where Element == Column {
+    func columnFrom(indexPath: IndexPath) -> Column {
+        let n = (indexPath.row % count) - 1
+        return n < 0 ? self[(count - 1) as! Self.Index] : self[n as! Self.Index]
     }
 }
 

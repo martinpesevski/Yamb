@@ -8,7 +8,7 @@
 import UIKit
 
 protocol DiceSelectionDelegate: class {
-    func didSelect(_ diceRolls: [DiceRoll], cell: YambCell)
+    func didSelect(_ diceRolls: [DiceRoll], indexPath: IndexPath?)
 }
 
 class DiceSelectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
@@ -17,7 +17,7 @@ class DiceSelectionViewController: UIViewController, UICollectionViewDataSource,
     
     var diceRolls: [DiceRoll] = []
     weak var delegate: DiceSelectionDelegate?
-    var cell: YambCell?
+    var indexPath: IndexPath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,12 +39,12 @@ class DiceSelectionViewController: UIViewController, UICollectionViewDataSource,
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = selectedCollection.dequeueReusableCell(withReuseIdentifier: "selectionCell", for: indexPath) as? DiceCell ?? DiceCell(frame: .zero)
-        cell.setup(diceRoll: diceRolls[indexPath.row])
+        cell.setup(diceRoll: diceRolls[indexPath.item])
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        diceRolls.remove(at: indexPath.row)
+        diceRolls.remove(at: indexPath.item)
         selectedCollection.reloadData()
     }
     
@@ -55,8 +55,7 @@ class DiceSelectionViewController: UIViewController, UICollectionViewDataSource,
     }
     
     @IBAction func onDone(_ sender: Any) {
-        guard let cell = cell else { return }
-        delegate?.didSelect(diceRolls, cell: cell)
+        delegate?.didSelect(diceRolls, indexPath: indexPath)
         dismiss(animated: true, completion: nil)
     }
 }

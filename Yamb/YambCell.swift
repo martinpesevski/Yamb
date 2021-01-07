@@ -15,33 +15,32 @@ class YambCell: UICollectionViewCell {
         label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         return label
     }()
-    
-    var row: Row?
-    
+        
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         contentView.addSubview(textLabel)
         textLabel.snp.makeConstraints { make in make.center.equalToSuperview() }
-        
-        layer.cornerRadius = 5
-        layer.borderWidth = 1
-        layer.borderColor = UIColor.label.cgColor
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupRow(_ row: Row) {
-        self.row = row
-    }
-    
-    func setupDiceRolls(_ diceRolls: [DiceRoll]) {
-        guard let row = self.row else { return }
-        
-        self.textLabel.text = "\(row.calculate(diceRolls: diceRolls))"
-        
-        NSLog("row: \(row), dice rolls: \(diceRolls), result: \(self.textLabel.text ?? "")")
+    func setup(field: Field) {
+        if field.type == .Yamb {
+            if let score = field.score {
+                textLabel.text = "\(score)"
+            } else {
+                textLabel.text = ""
+            }
+
+            layer.cornerRadius = 5
+            layer.borderWidth = 1
+            layer.borderColor = UIColor.label.cgColor
+        } else {
+            textLabel.text = "\(field.score ?? 0)"
+            layer.borderWidth = 0
+        }
     }
 }

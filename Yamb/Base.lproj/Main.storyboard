@@ -17,8 +17,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8wQ-EH-Gr3">
+                                <rect key="frame" x="318" y="44" width="76" height="27"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="33V-Wg-87F" userLabel="yamb collection view">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="74" width="414" height="788"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="H6W-0V-9A3">
                                     <size key="itemSize" width="128" height="128"/>
@@ -36,13 +41,16 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="8wQ-EH-Gr3" secondAttribute="trailing" constant="20" id="4qn-ep-cDV"/>
                             <constraint firstItem="33V-Wg-87F" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Iih-MC-cQv"/>
-                            <constraint firstItem="33V-Wg-87F" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="bm0-TB-5t1"/>
+                            <constraint firstItem="33V-Wg-87F" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="30" id="bm0-TB-5t1"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="33V-Wg-87F" secondAttribute="bottom" id="inp-Xv-RJi"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="33V-Wg-87F" secondAttribute="trailing" id="l9e-O0-4Qu"/>
+                            <constraint firstItem="8wQ-EH-Gr3" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="z1y-aB-lvI"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="totalScoreLabel" destination="8wQ-EH-Gr3" id="Qjt-f8-0sa"/>
                         <outlet property="yambCollectionView" destination="33V-Wg-87F" id="bQE-aK-fAy"/>
                         <segue destination="sGd-o2-6Kc" kind="presentation" identifier="showDiceSelect" id="hlb-Q1-lqo"/>
                     </connections>
