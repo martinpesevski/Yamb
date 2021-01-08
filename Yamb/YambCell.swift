@@ -31,7 +31,7 @@ class YambCell: UICollectionViewCell {
         switch field.type {
         case .Yamb:
             if let score = field.score {
-                textLabel.text = "\(score)"
+                textLabel.text = "\(score)" + (field.hasStar ? "*" : "")
             } else {
                 textLabel.text = ""
             }

@@ -77,9 +77,25 @@ class YambDataSource {
         var sumMiddle = 0
         var sumBottom = 0
 
-        fieldsDict[0]?.filter { $0.type == .Result }.forEach { sumTop += $0.score ?? 0 }
-        fieldsDict[1]?.filter { $0.type == .Result }.forEach { sumMiddle += $0.score ?? 0 }
-        fieldsDict[2]?.filter { $0.type == .Result }.forEach { sumBottom += $0.score ?? 0 }
+        fieldsDict[0]?.filter { $0.type == .Result }.forEach {
+            sumTop += $0.score ?? 0
+        }
+        fieldsDict[0]?.filter { $0.type == .Yamb && $0.hasStar }.forEach {_ in
+            sumTop += 50
+        }
+        fieldsDict[1]?.filter { $0.type == .Result }.forEach {
+            sumMiddle += $0.score ?? 0
+        }
+        fieldsDict[1]?.filter { $0.type == .Yamb && $0.hasStar }.forEach {_ in
+            sumMiddle += 50
+        }
+        fieldsDict[2]?.filter { $0.type == .Result }.forEach {
+            sumBottom += $0.score ?? 0
+            if $0.hasStar { sumMiddle += 50 }
+        }
+        fieldsDict[2]?.filter { $0.type == .Yamb && $0.hasStar }.forEach {_ in
+            sumTop += 50
+        }
 
         return sumTop + sumMiddle + sumBottom
     }
@@ -139,7 +155,10 @@ class YambDataSource {
     func setScore(diceRolls: [DiceRoll], indexPath: IndexPath) {
         guard let row = fieldsDict[indexPath.section]?[indexPath.item].row else { return }
         let column = columns.columnFrom(indexPath: indexPath)
-        fieldsDict[indexPath.section]?[indexPath.item].score = row.calculate(diceRolls: diceRolls)
+        if let field = fieldsDict[indexPath.section]?[indexPath.item] {
+            field.score = row.calculate(diceRolls: diceRolls)
+            field.hasStar = field.row != .yamb && diceRolls.hasStar
+        }
         scoreField(column: column, section: indexPath.section)?.score = columnResult(column: column, section: indexPath.section)
         if row == .ones {
             scoreField(column: column, section: 1)?.score = columnResult(column: column, section: 1)
@@ -246,6 +265,7 @@ class Field {
     var column: Column
     var indexPath: IndexPath
     var score: Int?
+    var hasStar: Bool = false
     
     var isEnabled: Bool
     

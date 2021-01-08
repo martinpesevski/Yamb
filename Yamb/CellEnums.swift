@@ -9,6 +9,8 @@ import UIKit
 
 let thrillingModifier = 20
 let straightModifier = 30
+let largeStraightFlat = 100
+let yambOnes = 101
 let fullModifier = 40
 let pokerModifier = 50
 let yambModifier = 60
@@ -235,8 +237,8 @@ extension Collection where Element == DiceRoll {
     
     var straight: Int {
         let sorted = Array(Set(self)).sorted { $0.rawValue < $1.rawValue }
+        if sorted.elementsEqual([.one, .two, .three, .four, .five, .six]) { return largeStraightFlat }
         if sorted.elementsEqual([.one, .two, .three, .four, .five]) ||
-            sorted.elementsEqual([.one, .two, .three, .four, .five, .six]) ||
             sorted.elementsEqual([.two, .three, .four, .five, .six])
         {
             return sorted.map{ $0.rawValue }.reduce(0, +) + straightModifier
@@ -291,10 +293,22 @@ extension Collection where Element == DiceRoll {
         
         let keys = histogram.keys.sorted { $0.rawValue > $1.rawValue }
         for key in keys {
-            if histogram[key] ?? 0 >= 5 { return (5 * key.rawValue) + yambModifier }
+            if histogram[key] ?? 0 >= 5 {
+                if key == .one { return yambOnes }
+                return (5 * key.rawValue) + yambModifier
+            }
         }
         
         return 0
+    }
+    
+    var hasStar: Bool {
+        let histogram: [DiceRoll: Int] = self.histogram
+        for key in histogram.keys {
+            if histogram[key] ?? 0 >= 5 { return true }
+        }
+        
+        return false
     }
 }
 
