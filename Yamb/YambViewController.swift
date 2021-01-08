@@ -53,7 +53,7 @@ class YambViewController: UIViewController, UICollectionViewDataSource, UICollec
             if !field.isEnabled { return }
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             guard let diceSelection = storyboard.instantiateViewController(withIdentifier: "diceSelection") as? DiceSelectionViewController else { return }
-            diceSelection.indexPath = indexPath
+            diceSelection.field = field
             diceSelection.delegate = self
             self.present(diceSelection, animated: true)
         case .Result:

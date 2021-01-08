@@ -15,10 +15,11 @@ protocol DiceSelectionDelegate: class {
 class DiceSelectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
     @IBOutlet var selectedCollection: UICollectionView!
+    @IBOutlet var titleLabel: UILabel!
     
     var diceRolls: [DiceRoll] = []
     weak var delegate: DiceSelectionDelegate?
-    var indexPath: IndexPath?
+    var field: Field?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +33,7 @@ class DiceSelectionViewController: UIViewController, UICollectionViewDataSource,
         flowLayout.minimumLineSpacing = 10
         flowLayout.itemSize = CGSize(width: (UIScreen.main.bounds.width - 40)/3 - 10, height: (UIScreen.main.bounds.width - 40)/3 - 10)
         selectedCollection.collectionViewLayout = flowLayout;
+        titleLabel.text = field?.row?.longTitle
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -56,7 +58,13 @@ class DiceSelectionViewController: UIViewController, UICollectionViewDataSource,
     }
     
     @IBAction func onDone(_ sender: Any) {
-        delegate?.didSelect(diceRolls, indexPath: indexPath)
+        if field?.row?.fiveDiceRequired == true && diceRolls.count < 5 {
+            let alert = UIAlertController(title: nil, message: "You must select at least five dice", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+            return
+        }
+        delegate?.didSelect(diceRolls, indexPath: field?.indexPath)
         dismiss(animated: true) {
             self.delegate?.didDismiss()
         }

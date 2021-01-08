@@ -115,6 +115,31 @@ enum Row: Int {
         }
     }
     
+    var longTitle: String {
+        switch self {
+        case .ones: return "Ones"
+        case .twos: return "Twos"
+        case .threes: return "Threes"
+        case .fours: return "Fours"
+        case .fives: return "Fives"
+        case .sixes: return "Sixes"
+        case .min: return "Minimum. You must select at least 5 dice"
+        case .max: return "Maximum. You must select at least 5 dice"
+        case .thrilling: return "Thrilling"
+        case .straight: return "Straight"
+        case .full: return "Full house"
+        case .poker: return "Poker"
+        case .yamb: return "Yamb"
+        }
+    }
+    
+    var fiveDiceRequired: Bool {
+        switch self {
+        case .min, .max: return true
+        default: return false
+        }
+    }
+    
     var description: String {
         switch self {
         case .ones: return "The sum of your \"One\" dice rolls"
