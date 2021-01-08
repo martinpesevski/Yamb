@@ -22,17 +22,30 @@ enum Column {
     case announce
     case disannounce
     case hand
+    
+    var headerTitle: String {
+        switch self {
+        case .down: return "\u{2193}"
+        case .up: return "\u{2191}"
+        case .free: return "F"
+        case .midOut: return "\u{21F3}"
+        case .outMid: return "\u{29D6}"
+        case .announce: return "A"
+        case .disannounce: return "DA"
+        case .hand: return "H"
+        }
+    }
 }
 
-enum Row {
+enum Row: Int {
     case ones
     case twos
     case threes
     case fours
     case fives
     case sixes
-    case min
     case max
+    case min
     case thrilling
     case straight
     case full
@@ -70,12 +83,11 @@ enum Row {
     
     static func fromIndexPath(_ indexPath: IndexPath, numberOfColumns: Int) -> Row? {
         if indexPath.section == 0 {
-            if indexPath.item / numberOfColumns == 0 { return .ones}
-            if indexPath.item / numberOfColumns == 1 { return .twos}
-            if indexPath.item / numberOfColumns == 2 { return .threes}
-            if indexPath.item / numberOfColumns == 3 { return .fours}
-            if indexPath.item / numberOfColumns == 4 { return .fives}
-            if indexPath.item / numberOfColumns == 5 { return .sixes}
+            if indexPath.item / numberOfColumns == 1 { return .ones}
+            if indexPath.item / numberOfColumns == 2 { return .twos}
+            if indexPath.item / numberOfColumns == 3 { return .threes}
+            if indexPath.item / numberOfColumns == 4 { return .fours}
+            if indexPath.item / numberOfColumns == 5 { return .fives}
             if indexPath.item / numberOfColumns == 6 { return .sixes}
         } else if indexPath.section == 1 {
             if indexPath.item / numberOfColumns == 0 { return .max}
@@ -114,7 +126,7 @@ enum DiceRoll: Int {
 
 extension Collection where Element == Column {
     func columnFrom(indexPath: IndexPath) -> Column {
-        let n = (indexPath.row % count) - 1
+        let n = (indexPath.row % count)
         return n < 0 ? self[(count - 1) as! Self.Index] : self[n as! Self.Index]
     }
 }
@@ -136,7 +148,7 @@ extension Collection where Element == DiceRoll {
     var thriller: Int {
         let histogram: [DiceRoll: Int] = self.histogram
         
-        let keys = histogram.keys.sorted { $0.rawValue < $1.rawValue }
+        let keys = histogram.keys.sorted { $0.rawValue > $1.rawValue }
         for key in keys {
             if histogram[key] ?? 0 >= 3 { return (3 * key.rawValue) + thrillingModifier }
         }
@@ -158,7 +170,7 @@ extension Collection where Element == DiceRoll {
     
     var full: Int {
         let histogram: [DiceRoll: Int] = self.histogram
-        let keys = histogram.keys.sorted { $0.rawValue > $1.rawValue }
+        let keys = histogram.keys.sorted { $0.rawValue < $1.rawValue }
         
         var threeOf = 0
         var twoOf = 0

@@ -12,7 +12,7 @@ class YambViewController: UIViewController, UICollectionViewDataSource, UICollec
     @IBOutlet var totalScoreLabel: UILabel!
     @IBOutlet var yambCollectionView: UICollectionView!
     
-    let columns: [Column] = [.down, .up, .free, .announce, .disannounce]
+    let columns: [Column] = [.down, .up, .free, .midOut, .outMid, .announce, .disannounce]
     
     lazy var dataSource = YambDataSource(columns: columns)
     
@@ -24,7 +24,7 @@ class YambViewController: UIViewController, UICollectionViewDataSource, UICollec
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumInteritemSpacing = 3
         flowLayout.minimumLineSpacing = 3
-        flowLayout.itemSize = CGSize(width: UIScreen.main.bounds.width/5 - 3, height: 45)
+        flowLayout.itemSize = CGSize(width: (UIScreen.main.bounds.width/CGFloat(columns.count)) - 3, height: 45)
         flowLayout.sectionInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
         yambCollectionView.collectionViewLayout = flowLayout;
     }
@@ -46,11 +46,18 @@ class YambViewController: UIViewController, UICollectionViewDataSource, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let diceSelection = storyboard.instantiateViewController(withIdentifier: "diceSelection") as? DiceSelectionViewController else { return }
-        diceSelection.indexPath = indexPath
-        diceSelection.delegate = self
-        self.present(diceSelection, animated: true)
+        guard let field = dataSource.fieldFor(indexPath: indexPath), field.isEnabled else { return }
+        
+        switch field.type {
+        case .Yamb:
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            guard let diceSelection = storyboard.instantiateViewController(withIdentifier: "diceSelection") as? DiceSelectionViewController else { return }
+            diceSelection.indexPath = indexPath
+            diceSelection.delegate = self
+            self.present(diceSelection, animated: true)
+        case .Result: return
+        case .ColumnHeader: return
+        }
     }
     
     func didSelect(_ diceRolls: [DiceRoll], indexPath: IndexPath?) {

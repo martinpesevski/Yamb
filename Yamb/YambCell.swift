@@ -35,11 +35,17 @@ class YambCell: UICollectionViewCell {
                 textLabel.text = ""
             }
 
+            backgroundColor = field.isEnabled ? .systemGray6 : .systemBackground
             layer.cornerRadius = 5
             layer.borderWidth = 1
             layer.borderColor = UIColor.label.cgColor
-        } else {
+        } else if field.type == .Result {
+            backgroundColor = .systemBackground
             textLabel.text = "\(field.score ?? 0)"
+            layer.borderWidth = 0
+        } else if field.type == .ColumnHeader {
+            backgroundColor = .systemBackground
+            textLabel.text = field.column.headerTitle
             layer.borderWidth = 0
         }
     }

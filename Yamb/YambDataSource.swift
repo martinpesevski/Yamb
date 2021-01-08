@@ -10,12 +10,13 @@ import UIKit
 enum FieldType {
     case Yamb
     case Result
-    case Empty
+    case ColumnHeader
 }
 
 class YambDataSource {
     let columns: [Column]
     
+    var columnHeaderCount: Int { columns.count }
     var topFieldsCount: Int { 6 * columns.count }
     var topResultsCount: Int { columns.count }
     var middleFieldsCount: Int { 2 * columns.count }
@@ -25,9 +26,12 @@ class YambDataSource {
     
     lazy var fieldsDict: [Int: [Field]] = {
         var topFields: [Field] = []
-        for i in 0..<(topFieldsCount + topResultsCount) {
+        for i in 0..<(columnHeaderCount + topFieldsCount + topResultsCount) {
             let indexPath = IndexPath(row: i, section: 0)
-            let fieldType: FieldType = i < topFieldsCount ? .Yamb : .Result
+            var fieldType: FieldType = i < topFieldsCount + columnHeaderCount ? .Yamb : .Result
+            if i < columnHeaderCount {
+                fieldType = .ColumnHeader
+            }
             
             topFields.append(Field(row: Row.fromIndexPath(indexPath, numberOfColumns: columns.count),
                                    type: fieldType,
@@ -69,8 +73,9 @@ class YambDataSource {
         return sumTop + sumMiddle + sumBottom
     }
     
-    func fieldTypeFor(indexPath: IndexPath) -> FieldType{
+    func fieldTypeFor(indexPath: IndexPath) -> FieldType {
         if indexPath.section == 0 {
+            if indexPath.item < columnHeaderCount { return .ColumnHeader }
             return indexPath.item < topFieldsCount ? .Yamb : .Result
         } else if indexPath.section == 1 {
             return indexPath.item < middleFieldsCount ? .Yamb : .Result
@@ -78,7 +83,11 @@ class YambDataSource {
             return indexPath.item < bottomFieldsCount ? .Yamb : .Result
         }
         
-        return .Empty
+        return .ColumnHeader
+    }
+    
+    func fieldFor(indexPath: IndexPath) -> Field? {
+        return fieldsDict[indexPath.section]?[indexPath.row]
     }
     
     func columnResult(column: Column, section: Int) -> Int {
@@ -114,6 +123,16 @@ class YambDataSource {
         if row == .ones {
             scoreField(column: column, section: 1)?.score = columnResult(column: column, section: 1)
         }
+        
+        updateEnabledFields()
+    }
+    
+    func updateEnabledFields() {
+        for (_, fields) in fieldsDict {
+            for dictField in fields {
+                dictField.isEnabled = isRequirementFullfilled(field: dictField)
+            }
+        }
     }
     
     func scoreField(column: Column, section: Int) -> Field? {
@@ -126,6 +145,76 @@ class YambDataSource {
     
     init(columns: [Column]) {
         self.columns = columns
+        
+        updateEnabledFields()
+    }
+    
+    func isRequirementFullfilled(field: Field) -> Bool {
+        switch field.column {
+        case .down:
+            if field.row == .ones { return true }
+            for (_, fields) in fieldsDict {
+                for dictField in fields where dictField.column == field.column {
+                    if let dictRowValue = dictField.row?.rawValue, let fieldRowValue = field.row?.rawValue {
+                        if dictRowValue == fieldRowValue - 1 { return dictField.score != nil }
+                    }
+                }
+            }
+            return false
+        case .up:
+            if field.row == .yamb { return true }
+            for (_, fields) in fieldsDict {
+                for dictField in fields where dictField.column == field.column {
+                    if let dictRowValue = dictField.row?.rawValue, let fieldRowValue = field.row?.rawValue {
+                        if fieldRowValue + 1 == dictRowValue {
+                            return dictField.score != nil
+                            
+                        }
+                    }
+                }
+            }
+            return false
+        case .free: return true
+        case .midOut:
+            if field.row == .min || field.row == .max { return true }
+            for (_, fields) in fieldsDict {
+                for dictField in fields where dictField.column == field.column {
+                    if let dictRowValue = dictField.row?.rawValue, let fieldRowValue = field.row?.rawValue {
+                        if fieldRowValue < Row.max.rawValue {
+                            if fieldRowValue + 1 == dictRowValue {
+                                return dictField.score != nil
+                            }
+                        } else if fieldRowValue > Row.min.rawValue {
+                            if fieldRowValue - 1 == dictRowValue {
+                                return dictField.score != nil
+                            }
+                        }
+                    }
+                }
+            }
+            return false
+        case .outMid:
+            if field.row == .ones || field.row == .yamb { return true }
+            for (_, fields) in fieldsDict {
+                for dictField in fields where dictField.column == field.column {
+                    if let dictRowValue = dictField.row?.rawValue, let fieldRowValue = field.row?.rawValue {
+                        if fieldRowValue <= Row.max.rawValue {
+                            if fieldRowValue - 1 == dictRowValue {
+                                return dictField.score != nil
+                            }
+                        } else if fieldRowValue >= Row.min.rawValue {
+                            if fieldRowValue + 1 == dictRowValue {
+                                return dictField.score != nil
+                            }
+                        }
+                    }
+                }
+            }
+            return false
+        case .announce: return true
+        case .disannounce: return true
+        case .hand: return true
+        }
     }
 }
 
@@ -136,10 +225,13 @@ class Field {
     var indexPath: IndexPath
     var score: Int?
     
+    var isEnabled: Bool
+    
     init(row: Row?, type: FieldType, column: Column, indexPath: IndexPath) {
         self.row = row
         self.type = type
         self.column = column
         self.indexPath = indexPath
+        self.isEnabled = true
     }
 }
