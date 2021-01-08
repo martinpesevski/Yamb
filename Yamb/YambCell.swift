@@ -35,7 +35,7 @@ class YambCell: UICollectionViewCell {
                 textLabel.text = ""
             }
 
-            backgroundColor = field.isEnabled ? .systemGray6 : .systemBackground
+            backgroundColor = field.isEnabled ? .systemGray5 : .systemBackground
             layer.cornerRadius = 5
             layer.borderWidth = 1
             layer.borderColor = UIColor.label.cgColor
