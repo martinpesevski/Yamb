@@ -35,6 +35,19 @@ enum Column {
         case .hand: return "H"
         }
     }
+    
+    var description: String {
+        switch self {
+        case .down: return "Populate this column in order from Ones to Yamb"
+        case .up: return "Populate this column in reverse order from Yamb to One"
+        case .free: return "Populate this column in any order"
+        case .midOut: return "Populate this column starting from Max to One, and starting from Min to Yamb"
+        case .outMid: return "Populate this column starting from One to Max, and starting from Yamb to Min"
+        case .announce: return "Populate this column in any order, but you need to announce the field that you will be populating after the first dice throw"
+        case .disannounce: return "Populate this column after the previous opponent filled the announce field of the same row"
+        case .hand: return "Populate this column in any order, after throwing six dice at once"
+        }
+    }
 }
 
 enum Row: Int {

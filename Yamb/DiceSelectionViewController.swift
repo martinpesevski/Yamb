@@ -9,6 +9,7 @@ import UIKit
 
 protocol DiceSelectionDelegate: class {
     func didSelect(_ diceRolls: [DiceRoll], indexPath: IndexPath?)
+    func didDismiss()
 }
 
 class DiceSelectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
@@ -56,7 +57,9 @@ class DiceSelectionViewController: UIViewController, UICollectionViewDataSource,
     
     @IBAction func onDone(_ sender: Any) {
         delegate?.didSelect(diceRolls, indexPath: indexPath)
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true) {
+            self.delegate?.didDismiss()
+        }
     }
 }
 

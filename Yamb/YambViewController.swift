@@ -46,17 +46,29 @@ class YambViewController: UIViewController, UICollectionViewDataSource, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let field = dataSource.fieldFor(indexPath: indexPath), field.isEnabled else { return }
+        guard let field = dataSource.fieldFor(indexPath: indexPath) else { return }
         
         switch field.type {
         case .Yamb:
+            if !field.isEnabled { return }
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             guard let diceSelection = storyboard.instantiateViewController(withIdentifier: "diceSelection") as? DiceSelectionViewController else { return }
             diceSelection.indexPath = indexPath
             diceSelection.delegate = self
             self.present(diceSelection, animated: true)
-        case .Result: return
-        case .ColumnHeader: return
+        case .Result:
+            var message = ""
+            if indexPath.section == 0 { message = "This shows the sum of the above column. If the sum is equal to or greater than 60, you will get 30 extra points"}
+            else if indexPath.section == 1 { message = "This shows the result of the above column. It is calculated by subtracting the Min from the Max and multiplying the result by the number of Ones. If the result is equal to or greater than 60, you will get 30 extra points" }
+            else if indexPath.section == 2 { message = "This shows the sum of the above column" }
+            
+            let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+        case .ColumnHeader:
+            let alert = UIAlertController(title: nil, message: field.column.description, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
         }
     }
     
@@ -65,5 +77,17 @@ class YambViewController: UIViewController, UICollectionViewDataSource, UICollec
         dataSource.setScore(diceRolls: diceRolls, indexPath: indexPath)
         yambCollectionView.reloadData()
         totalScoreLabel.text = "Total: \(dataSource.totalScore)"
+    }
+    
+    func didDismiss() {
+        if dataSource.isGameEnded {
+            let alert = UIAlertController(title: "GAME OVER", message: "TOTAL SCORE: \(dataSource.totalScore)", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "New game", style: .default, handler: { _ in
+                self.dataSource = YambDataSource(columns: self.columns)
+                self.yambCollectionView.reloadData()
+                self.totalScoreLabel.text = "Total: \(self.dataSource.totalScore)"
+            }))
+            present(alert, animated: true, completion: nil)
+        }
     }
 }

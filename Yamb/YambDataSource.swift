@@ -73,6 +73,16 @@ class YambDataSource {
         return sumTop + sumMiddle + sumBottom
     }
     
+    var isGameEnded: Bool {
+        for (_, fields) in fieldsDict {
+            for field in fields where field.row != nil {
+                if field.score == nil { return false }
+            }
+        }
+        
+        return true
+    }
+    
     func fieldTypeFor(indexPath: IndexPath) -> FieldType {
         if indexPath.section == 0 {
             if indexPath.item < columnHeaderCount { return .ColumnHeader }
