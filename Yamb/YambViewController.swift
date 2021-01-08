@@ -12,7 +12,7 @@ class YambViewController: UIViewController, UICollectionViewDataSource, UICollec
     @IBOutlet var totalScoreLabel: UILabel!
     @IBOutlet var yambCollectionView: UICollectionView!
     
-    let columns: [Column] = [.down, .up, .free, .midOut, .outMid, .announce, .disannounce]
+    let columns: [Column] = [.rowNames, .down, .up, .free, .midOut, .outMid, .announce, .disannounce]
     
     lazy var dataSource = YambDataSource(columns: columns)
     
@@ -67,6 +67,10 @@ class YambViewController: UIViewController, UICollectionViewDataSource, UICollec
             present(alert, animated: true, completion: nil)
         case .ColumnHeader:
             let alert = UIAlertController(title: nil, message: field.column.description, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+        case .RowName:
+            let alert = UIAlertController(title: nil, message: field.row?.description, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             present(alert, animated: true, completion: nil)
         }

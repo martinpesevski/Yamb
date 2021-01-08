@@ -28,7 +28,8 @@ class YambCell: UICollectionViewCell {
     }
     
     func setup(field: Field) {
-        if field.type == .Yamb {
+        switch field.type {
+        case .Yamb:
             if let score = field.score {
                 textLabel.text = "\(score)"
             } else {
@@ -39,13 +40,17 @@ class YambCell: UICollectionViewCell {
             layer.cornerRadius = 5
             layer.borderWidth = 1
             layer.borderColor = UIColor.label.cgColor
-        } else if field.type == .Result {
+        case .Result:
             backgroundColor = .systemBackground
             textLabel.text = "\(field.score ?? 0)"
             layer.borderWidth = 0
-        } else if field.type == .ColumnHeader {
+        case .ColumnHeader:
             backgroundColor = .systemBackground
             textLabel.text = field.column.headerTitle
+            layer.borderWidth = 0
+        case .RowName:
+            backgroundColor = .systemBackground
+            textLabel.text = field.row?.title
             layer.borderWidth = 0
         }
     }

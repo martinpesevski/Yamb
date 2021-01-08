@@ -11,6 +11,7 @@ enum FieldType {
     case Yamb
     case Result
     case ColumnHeader
+    case RowName
 }
 
 class YambDataSource {
@@ -29,7 +30,9 @@ class YambDataSource {
         for i in 0..<(columnHeaderCount + topFieldsCount + topResultsCount) {
             let indexPath = IndexPath(row: i, section: 0)
             var fieldType: FieldType = i < topFieldsCount + columnHeaderCount ? .Yamb : .Result
-            if i < columnHeaderCount {
+            if i % columns.count == 0 {
+                fieldType = .RowName
+            } else if i < columnHeaderCount {
                 fieldType = .ColumnHeader
             }
             
@@ -42,7 +45,11 @@ class YambDataSource {
         var middleFields: [Field] = []
         for i in 0..<(middleFieldsCount + middleResultsCount) {
             let indexPath = IndexPath(row: i, section: 1)
-            let fieldType: FieldType = i < middleFieldsCount ? .Yamb : .Result
+            var fieldType: FieldType = i < middleFieldsCount ? .Yamb : .Result
+            if i % columns.count == 0 {
+                fieldType = .RowName
+            }
+            
             middleFields.append(Field(row: Row.fromIndexPath(indexPath, numberOfColumns: columns.count),
                                       type: fieldType,
                                       column: columns.columnFrom(indexPath: indexPath),
@@ -52,7 +59,11 @@ class YambDataSource {
         var bottomFields: [Field] = []
         for i in 0..<(bottomFieldsCount + bottomResultsCount) {
             let indexPath = IndexPath(row: i, section: 2)
-            let fieldType: FieldType = i < bottomFieldsCount ? .Yamb : .Result
+            var fieldType: FieldType = i < bottomFieldsCount ? .Yamb : .Result
+            if i % columns.count == 0 {
+                fieldType = .RowName
+            }
+            
             bottomFields.append(Field(row: Row.fromIndexPath(indexPath, numberOfColumns: columns.count),
                                       type: fieldType,
                                       column: columns.columnFrom(indexPath: indexPath),
@@ -224,6 +235,7 @@ class YambDataSource {
         case .announce: return true
         case .disannounce: return true
         case .hand: return true
+        case .rowNames: return false
         }
     }
 }

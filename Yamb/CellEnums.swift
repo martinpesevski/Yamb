@@ -14,6 +14,7 @@ let pokerModifier = 50
 let yambModifier = 60
 
 enum Column {
+    case rowNames
     case down
     case up
     case free
@@ -25,6 +26,7 @@ enum Column {
     
     var headerTitle: String {
         switch self {
+        case .rowNames: return ""
         case .down: return "\u{2193}"
         case .up: return "\u{2191}"
         case .free: return "F"
@@ -38,6 +40,7 @@ enum Column {
     
     var description: String {
         switch self {
+        case .rowNames: return ""
         case .down: return "Populate this column in order from Ones to Yamb"
         case .up: return "Populate this column in reverse order from Yamb to One"
         case .free: return "Populate this column in any order"
@@ -85,12 +88,48 @@ enum Row: Int {
     
     var modifier: Int {
         switch self {
-        case .ones, .twos, .threes, .fours, .fives, .sixes, .min, .max: return 0
+        case .ones, .twos, .threes, .fours, .fives, .sixes, .max, .min: return 0
         case .thrilling: return thrillingModifier
         case .straight: return straightModifier
         case .full: return fullModifier
         case .poker: return pokerModifier
         case .yamb: return yambModifier
+        }
+    }
+    
+    var title: String {
+        switch self {
+        case .ones: return "1"
+        case .twos: return "2"
+        case .threes: return "3"
+        case .fours: return "4"
+        case .fives: return "5"
+        case .sixes: return "6"
+        case .min: return "Min"
+        case .max: return "Max"
+        case .thrilling: return "T"
+        case .straight: return "S"
+        case .full: return "F"
+        case .poker: return "P"
+        case .yamb: return "Y"
+        }
+    }
+    
+    var description: String {
+        switch self {
+        case .ones: return "The sum of your \"One\" dice rolls"
+        case .twos: return "The sum of your \"Two\" dice rolls"
+        case .threes: return "The sum of your \"Three\" dice rolls"
+        case .fours: return "The sum of your \"Four\" dice rolls"
+        case .fives: return "The sum of your \"Five\" dice rolls"
+        case .sixes: return "The sum of your \"Six\" dice rolls"
+        case .max: return "The highest total sum of 5 dice"
+        case .min: return "The lowest total sum of 5 dice"
+        case .thrilling: return "Three of a kind. A bonus of 20 is added to the sum"
+        case .straight: return "the sum of 5 or 6 dice in a row. A bonus of 30 is added to the sum. If you get a straight from 1-6, the score is 100"
+        case .full: return "Three of a kind, paired with two of a kind. A bonus of 40 is added to the sum. It is possible to put in 5 of a kind instead"
+        case .poker: return "Four of a kind. A bonus of 50 is added to the sum."
+        case .yamb: return "Five of a kind. A bonus of 60 is added to the sum. If you get 5 Ones, the score is 101 instead of 65"
         }
     }
     
