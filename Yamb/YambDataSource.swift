@@ -25,6 +25,8 @@ class YambDataSource {
     var bottomFieldsCount: Int { 5 * columns.count }
     var bottomResultsCount: Int { columns.count }
     
+    var lastPlayedField: Field?
+    
     lazy var fieldsDict: [Int: [Field]] = {
         var topFields: [Field] = []
         for i in 0..<(columnHeaderCount + topFieldsCount + topResultsCount) {
@@ -158,6 +160,7 @@ class YambDataSource {
         if let field = fieldsDict[indexPath.section]?[indexPath.item] {
             field.score = row.calculate(diceRolls: diceRolls)
             field.hasStar = field.row != .yamb && diceRolls.hasStar
+            lastPlayedField = field
         }
         scoreField(column: column, section: indexPath.section)?.score = columnResult(column: column, section: indexPath.section)
         if row == .ones {
@@ -165,6 +168,15 @@ class YambDataSource {
         }
         
         updateEnabledFields()
+    }
+    
+    func clear(indexPath: IndexPath) {
+        if let field = fieldsDict[indexPath.section]?[indexPath.item] {
+            field.score = nil
+            field.hasStar = false
+            lastPlayedField = field
+            updateEnabledFields()
+        }
     }
     
     func updateEnabledFields() {
@@ -190,6 +202,8 @@ class YambDataSource {
     }
     
     func isRequirementFullfilled(field: Field) -> Bool {
+        if field.score != nil && field != lastPlayedField { return false }
+        
         switch field.column {
         case .down:
             if field.row == .ones { return true }
@@ -259,7 +273,11 @@ class YambDataSource {
     }
 }
 
-class Field {
+class Field: Equatable {
+    static func == (lhs: Field, rhs: Field) -> Bool {
+        return lhs.indexPath == rhs.indexPath
+    }
+    
     var row: Row?
     var type: FieldType
     var column: Column

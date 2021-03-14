@@ -51,11 +51,19 @@ class YambViewController: UIViewController, UICollectionViewDataSource, UICollec
         switch field.type {
         case .Yamb:
             if !field.isEnabled { return }
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            guard let diceSelection = storyboard.instantiateViewController(withIdentifier: "diceSelection") as? DiceSelectionViewController else { return }
-            diceSelection.field = field
-            diceSelection.delegate = self
-            self.present(diceSelection, animated: true)
+            if field.row?.section == .middle || field.row == .full {
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                guard let diceSelection = storyboard.instantiateViewController(withIdentifier: "diceSelection") as? MinMaxDiceSelectionViewController else { return }
+                diceSelection.field = field
+                diceSelection.delegate = self
+                self.present(diceSelection, animated: true)
+            } else {
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                guard let diceSelection = storyboard.instantiateViewController(withIdentifier: "topBottomSelection") as? TopBottomDiceSelectionViewController else { return }
+                diceSelection.field = field
+                diceSelection.delegate = self
+                self.present(diceSelection, animated: true)
+            }
         case .Result:
             var message = ""
             if indexPath.section == 0 { message = "This shows the sum of the above column. If the sum is equal to or greater than 60, you will get 30 extra points"}
@@ -79,6 +87,13 @@ class YambViewController: UIViewController, UICollectionViewDataSource, UICollec
     func didSelect(_ diceRolls: [DiceRoll], indexPath: IndexPath?) {
         guard let indexPath = indexPath else { return }
         dataSource.setScore(diceRolls: diceRolls, indexPath: indexPath)
+        yambCollectionView.reloadData()
+        totalScoreLabel.text = "Total: \(dataSource.totalScore)"
+    }
+    
+    func didClear(indexPath: IndexPath?) {
+        guard let indexPath = indexPath else { return }
+        dataSource.clear(indexPath: indexPath)
         yambCollectionView.reloadData()
         totalScoreLabel.text = "Total: \(dataSource.totalScore)"
     }

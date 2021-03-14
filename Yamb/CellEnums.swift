@@ -142,6 +142,18 @@ enum Row: Int {
         }
     }
     
+    var associatedDiceRoll: DiceRoll? {
+        switch self {
+        case .ones: return .one
+        case .twos: return .two
+        case .threes: return .three
+        case .fours: return .four
+        case .fives: return .five
+        case .sixes: return .six
+        default: return nil
+        }
+    }
+    
     var description: String {
         switch self {
         case .ones: return "The sum of your \"One\" dice rolls"
@@ -157,6 +169,14 @@ enum Row: Int {
         case .full: return "Three of a kind, paired with two of a kind. A bonus of 40 is added to the sum. It is possible to put in 5 of a kind instead"
         case .poker: return "Four of a kind. A bonus of 50 is added to the sum."
         case .yamb: return "Five of a kind. A bonus of 60 is added to the sum. If you get 5 Ones, the score is 101 instead of 65"
+        }
+    }
+    
+    var section: Section {
+        switch self {
+        case .ones, .twos, .threes, .fours, .fives, .sixes: return .top
+        case .min, .max: return .middle
+        case .thrilling, .straight, .full, .poker, .yamb: return .bottom
         }
     }
     
@@ -199,6 +219,73 @@ enum DiceRoll: Int {
         case .four: return UIImage(named: "dice4") ?? UIImage()
         case .five: return UIImage(named: "dice5") ?? UIImage()
         case .six: return UIImage(named: "dice6") ?? UIImage()
+        }
+    }
+}
+
+enum Section {
+    case top
+    case middle
+    case bottom
+    
+    func nameAndRolls(row: Row) -> [Int: [(String, [DiceRoll])]] {
+        switch self {
+        case .top:
+            guard let diceroll = row.associatedDiceRoll else { return [:] }
+            
+            return [0: [
+                        ("None", []),
+                        ("One", [diceroll]),
+                        ("Two", [diceroll, diceroll]),
+                        ("Three", [diceroll, diceroll, diceroll]),
+                        ("Four", [diceroll, diceroll, diceroll, diceroll]),
+                        ("Five", [diceroll, diceroll, diceroll, diceroll, diceroll])]]
+        case .middle: return [:]
+        case .bottom:
+            switch row {
+            case .thrilling: return [0: [
+                                        ("None", []),
+                                        ("Ones", [.one, .one, .one]),
+                                         ("Twos", [.two, .two, .two]),
+                                         ("Threes", [.three, .three, .three]),
+                                         ("Fours", [.four, .four, .four]),
+                                         ("Fives", [.five, .five, .five]),
+                                         ("Sixes", [.six, .six, .six])]]
+            case .straight: return [0: [("Small", [.one, .two, .three, .four, .five]),
+                                        ("Medium", [.two, .three, .four, .five, .six]),
+                                        ("Large", [.one, .two, .three, .four, .five, .six])]]
+            case .full: return [0: [
+                                    ("None", []),
+                                    ("Ones", [.one, .one, .one]),
+                                    ("Twos", [.two, .two, .two]),
+                                    ("Threes", [.three, .three, .three]),
+                                    ("Fours", [.four, .four, .four]),
+                                    ("Fives", [.five, .five, .five]),
+                                    ("Sixes", [.six, .six, .six])],
+                                1: [("Ones", [.one, .one]),
+                                    ("Twos", [.two, .two]),
+                                    ("Threes", [.three, .three]),
+                                    ("Fours", [.four, .four]),
+                                    ("Fives", [.five, .five]),
+                                    ("Sixes", [.six, .six])]]
+            case .poker: return [0: [
+                                    ("None", []),
+                                    ("Ones", [.one, .one, .one, .one]),
+                                     ("Twos", [.two, .two, .two, .two]),
+                                     ("Threes", [.three, .three, .three, .three]),
+                                     ("Fours", [.four, .four, .four, .four]),
+                                     ("Fives", [.five, .five, .five, .five]),
+                                     ("Sixes", [.six, .six, .six, .six])]]
+            case .yamb: return [0: [
+                                    ("None", []),
+                                    ("Ones", [.one, .one, .one, .one, .one]),
+                                    ("Twos", [.two, .two, .two, .two, .two]),
+                                    ("Threes", [.three, .three, .three, .three, .three]),
+                                    ("Fours", [.four, .four, .four, .four, .four]),
+                                    ("Fives", [.five, .five, .five, .five, .five]),
+                                    ("Sixes", [.six, .six, .six, .six, .six])]]
+            default: return [:]
+            }
         }
     }
 }

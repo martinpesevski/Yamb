@@ -9,10 +9,11 @@ import UIKit
 
 protocol DiceSelectionDelegate: class {
     func didSelect(_ diceRolls: [DiceRoll], indexPath: IndexPath?)
+    func didClear(indexPath: IndexPath?)
     func didDismiss()
 }
 
-class DiceSelectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class MinMaxDiceSelectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
     @IBOutlet var selectedCollection: UICollectionView!
     @IBOutlet var titleLabel: UILabel!
@@ -65,6 +66,13 @@ class DiceSelectionViewController: UIViewController, UICollectionViewDataSource,
             return
         }
         delegate?.didSelect(diceRolls, indexPath: field?.indexPath)
+        dismiss(animated: true) {
+            self.delegate?.didDismiss()
+        }
+    }
+    
+    @IBAction func onClear(_ sender: Any) {
+        delegate?.didClear(indexPath: field?.indexPath)
         dismiss(animated: true) {
             self.delegate?.didDismiss()
         }
