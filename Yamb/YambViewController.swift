@@ -109,4 +109,8 @@ class YambViewController: UIViewController, UICollectionViewDataSource, UICollec
             present(alert, animated: true, completion: nil)
         }
     }
+    
+    @IBAction func onBack(_ sender: Any) {
+        navigationController?.popViewController(animated: true)
+    }
 }
