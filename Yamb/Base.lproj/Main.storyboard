@@ -134,17 +134,31 @@
             </objects>
             <point key="canvasLocation" x="1047.8260869565217" y="137.94642857142856"/>
         </scene>
-        <!--View Controller-->
+        <!--Settings View Controller-->
         <scene sceneID="FGc-yd-NfT">
             <objects>
-                <viewController id="DNd-5X-dty" sceneMemberID="viewController">
+                <viewController id="DNd-5X-dty" customClass="SettingsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0Qg-tx-fqt">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="lMc-jQ-iOT">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                            </stackView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="azM-eg-Vfm"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="lMc-jQ-iOT" firstAttribute="leading" secondItem="azM-eg-Vfm" secondAttribute="leading" id="5Dg-78-cFF"/>
+                            <constraint firstItem="azM-eg-Vfm" firstAttribute="trailing" secondItem="lMc-jQ-iOT" secondAttribute="trailing" id="QDK-Wb-O2b"/>
+                            <constraint firstItem="azM-eg-Vfm" firstAttribute="bottom" secondItem="lMc-jQ-iOT" secondAttribute="bottom" id="lPm-Oq-3rw"/>
+                            <constraint firstItem="lMc-jQ-iOT" firstAttribute="top" secondItem="azM-eg-Vfm" secondAttribute="top" id="vOg-Dp-sVO"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="MwX-jx-TRa"/>
+                    <connections>
+                        <outlet property="container" destination="lMc-jQ-iOT" id="Xed-PU-jwa"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kVW-Be-aUu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

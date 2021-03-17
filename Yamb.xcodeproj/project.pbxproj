@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C754F84125B1DC3700781E62 /* TopBottomDiceSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C754F84025B1DC3700781E62 /* TopBottomDiceSelectionViewController.swift */; };
+		C791EBF225FF8BA000E59D78 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C791EBF125FF8BA000E59D78 /* SettingsViewController.swift */; };
 		C798F6CD259E4FB100511286 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C798F6CC259E4FB100511286 /* AppDelegate.swift */; };
 		C798F6CF259E4FB100511286 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C798F6CE259E4FB100511286 /* SceneDelegate.swift */; };
 		C798F6D1259E4FB100511286 /* YambViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C798F6D0259E4FB100511286 /* YambViewController.swift */; };
@@ -26,6 +27,7 @@
 		33ABF3E6F290DDA06ED42583 /* Pods-Yamb.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yamb.release.xcconfig"; path = "Target Support Files/Pods-Yamb/Pods-Yamb.release.xcconfig"; sourceTree = "<group>"; };
 		568189D519DF34EF31B3FE7F /* Pods-Yamb.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yamb.debug.xcconfig"; path = "Target Support Files/Pods-Yamb/Pods-Yamb.debug.xcconfig"; sourceTree = "<group>"; };
 		C754F84025B1DC3700781E62 /* TopBottomDiceSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBottomDiceSelectionViewController.swift; sourceTree = "<group>"; };
+		C791EBF125FF8BA000E59D78 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		C798F6C9259E4FB100511286 /* Yamb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yamb.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C798F6CC259E4FB100511286 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C798F6CE259E4FB100511286 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				C798F6CC259E4FB100511286 /* AppDelegate.swift */,
 				C798F6CE259E4FB100511286 /* SceneDelegate.swift */,
 				C798F6D0259E4FB100511286 /* YambViewController.swift */,
+				C791EBF125FF8BA000E59D78 /* SettingsViewController.swift */,
 				C7FEC91225A733A70021BBEE /* YambDataSource.swift */,
 				C7FEC90E25A5F69D0021BBEE /* MinMaxDiceSelectionViewController.swift */,
 				C754F84025B1DC3700781E62 /* TopBottomDiceSelectionViewController.swift */,
@@ -228,6 +231,7 @@
 				C798F6CF259E4FB100511286 /* SceneDelegate.swift in Sources */,
 				C798F6E625A4BC8800511286 /* CellEnums.swift in Sources */,
 				C754F84125B1DC3700781E62 /* TopBottomDiceSelectionViewController.swift in Sources */,
+				C791EBF225FF8BA000E59D78 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
