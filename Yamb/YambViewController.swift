@@ -56,12 +56,14 @@ class YambViewController: UIViewController, UICollectionViewDataSource, UICollec
                 guard let diceSelection = storyboard.instantiateViewController(withIdentifier: "diceSelection") as? MinMaxDiceSelectionViewController else { return }
                 diceSelection.field = field
                 diceSelection.delegate = self
+                diceSelection.shouldShowClear = field == dataSource.lastPlayedField
                 self.present(diceSelection, animated: true)
             } else {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 guard let diceSelection = storyboard.instantiateViewController(withIdentifier: "topBottomSelection") as? TopBottomDiceSelectionViewController else { return }
                 diceSelection.field = field
                 diceSelection.delegate = self
+                diceSelection.shouldShowClear = field == dataSource.lastPlayedField
                 self.present(diceSelection, animated: true)
             }
         case .Result:

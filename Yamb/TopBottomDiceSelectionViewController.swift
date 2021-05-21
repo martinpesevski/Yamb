@@ -10,10 +10,12 @@ import UIKit
 class TopBottomDiceSelectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var collectionView: UICollectionView!
+    @IBOutlet var clearButton: UIButton!
     
     var field: Field?
     weak var delegate: DiceSelectionDelegate?
-
+    var shouldShowClear = false
+    
     override func viewDidLoad() {
         
         collectionView.register(TopBottomCollectionCell.self, forCellWithReuseIdentifier: "topBottomCell")
@@ -27,6 +29,7 @@ class TopBottomDiceSelectionViewController: UIViewController, UICollectionViewDa
         collectionView.delegate = self
         
         titleLabel.text = field?.row?.longTitle
+        clearButton.isHidden = !shouldShowClear
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

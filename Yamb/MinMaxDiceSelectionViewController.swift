@@ -17,10 +17,13 @@ class MinMaxDiceSelectionViewController: UIViewController, UICollectionViewDataS
     
     @IBOutlet var selectedCollection: UICollectionView!
     @IBOutlet var titleLabel: UILabel!
-    
+    @IBOutlet var clearButton: UIButton!
+
     var diceRolls: [DiceRoll] = []
     weak var delegate: DiceSelectionDelegate?
     var field: Field?
+    
+    var shouldShowClear = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +38,8 @@ class MinMaxDiceSelectionViewController: UIViewController, UICollectionViewDataS
         flowLayout.itemSize = CGSize(width: (UIScreen.main.bounds.width - 40)/3 - 10, height: (UIScreen.main.bounds.width - 40)/3 - 10)
         selectedCollection.collectionViewLayout = flowLayout;
         titleLabel.text = field?.row?.longTitle
+        
+        clearButton.isHidden = !shouldShowClear
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
