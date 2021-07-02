@@ -7,7 +7,9 @@
 
 import UIKit
 
-enum FieldType {
+let kScoreDictKey = "yambSavedScore"
+
+enum FieldType: Int, Codable {
     case Yamb
     case Result
     case ColumnHeader
@@ -25,10 +27,13 @@ class YambDataSource {
     var bottomFieldsCount: Int { 5 * columns.count }
     var bottomResultsCount: Int { columns.count }
     
+    var isNewGame: Bool = true
     var lastPlayedField: Field?
+    let userDefaults = UserDefaults.standard
     
     lazy var fieldsDict: [Int: [Field]] = {
         var topFields: [Field] = []
+        
         for i in 0..<(columnHeaderCount + topFieldsCount + topResultsCount) {
             let indexPath = IndexPath(row: i, section: 0)
             var fieldType: FieldType = i < topFieldsCount + columnHeaderCount ? .Yamb : .Result
@@ -167,6 +172,28 @@ class YambDataSource {
             scoreField(column: column, section: 1)?.score = columnResult(column: column, section: 1)
         }
         
+        let fieldsData = try? PropertyListEncoder().encode(fieldsDict)
+        userDefaults.setValue(fieldsData, forKey: kScoreDictKey);
+        
+        updateEnabledFields()
+    }
+    
+    func loadScores() {
+        if let fields = userDefaults.value(forKey: kScoreDictKey) as? Data,
+           let decodedFields  = try? PropertyListDecoder().decode([Int: [Field]].self, from: fields) {
+            fieldsDict = decodedFields;
+        }
+    }
+    
+    func resetScores() {
+        fieldsDict = fieldsDict.mapValues { fieldArray in
+            fieldArray.map { fld in
+                fld.hasStar = false
+                fld.score = nil
+                return fld
+            }
+        }
+        lastPlayedField = nil
         updateEnabledFields()
     }
     
@@ -273,7 +300,7 @@ class YambDataSource {
     }
 }
 
-class Field: Equatable {
+class Field: Equatable, Codable {
     static func == (lhs: Field, rhs: Field) -> Bool {
         return lhs.indexPath == rhs.indexPath
     }

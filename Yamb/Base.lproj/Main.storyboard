@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -17,39 +17,63 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8wQ-EH-Gr3">
-                                <rect key="frame" x="318" y="44" width="76" height="27"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="33V-Wg-87F" userLabel="yamb collection view">
-                                <rect key="frame" x="0.0" y="74" width="414" height="788"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="H6W-0V-9A3">
-                                    <size key="itemSize" width="128" height="128"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells/>
-                                <connections>
-                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="EE6-g2-K3M"/>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="C0S-c5-eo6"/>
-                                </connections>
-                            </collectionView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="G2a-1A-Abk">
+                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PZw-0w-QId">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z4n-1K-qLt">
+                                                <rect key="frame" x="20" y="0.0" width="135" height="50"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                                                <state key="normal" title="New Game">
+                                                    <color key="titleColor" systemColor="labelColor"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="onNewGame:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ho6-45-rh5"/>
+                                                </connections>
+                                            </button>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DQt-bJ-tBl">
+                                                <rect key="frame" x="155" y="0.0" width="163.5" height="50"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            </view>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8wQ-EH-Gr3">
+                                                <rect key="frame" x="318.5" y="0.0" width="75.5" height="50"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <edgeInsets key="layoutMargins" top="0.0" left="20" bottom="0.0" right="20"/>
+                                    </stackView>
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="33V-Wg-87F" userLabel="yamb collection view">
+                                        <rect key="frame" x="0.0" y="50" width="414" height="802"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="H6W-0V-9A3">
+                                            <size key="itemSize" width="128" height="128"/>
+                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        </collectionViewFlowLayout>
+                                        <cells/>
+                                        <connections>
+                                            <outlet property="dataSource" destination="BYZ-38-t0r" id="EE6-g2-K3M"/>
+                                            <outlet property="delegate" destination="BYZ-38-t0r" id="C0S-c5-eo6"/>
+                                        </connections>
+                                    </collectionView>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="8wQ-EH-Gr3" secondAttribute="trailing" constant="20" id="4qn-ep-cDV"/>
-                            <constraint firstItem="33V-Wg-87F" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Iih-MC-cQv"/>
-                            <constraint firstItem="33V-Wg-87F" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="30" id="bm0-TB-5t1"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="33V-Wg-87F" secondAttribute="bottom" id="inp-Xv-RJi"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="33V-Wg-87F" secondAttribute="trailing" id="l9e-O0-4Qu"/>
-                            <constraint firstItem="8wQ-EH-Gr3" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="z1y-aB-lvI"/>
+                            <constraint firstItem="G2a-1A-Abk" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="47X-9V-qqB"/>
+                            <constraint firstItem="G2a-1A-Abk" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Pes-ou-7HF"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="G2a-1A-Abk" secondAttribute="bottom" constant="-34" id="UyU-y9-rDx"/>
+                            <constraint firstItem="G2a-1A-Abk" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="gc1-8c-DGZ"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="topStack" destination="PZw-0w-QId" id="YOj-os-aI1"/>
                         <outlet property="totalScoreLabel" destination="8wQ-EH-Gr3" id="Qjt-f8-0sa"/>
                         <outlet property="yambCollectionView" destination="33V-Wg-87F" id="bQE-aK-fAy"/>
                     </connections>

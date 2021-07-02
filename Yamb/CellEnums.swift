@@ -15,7 +15,7 @@ let fullModifier = 40
 let pokerModifier = 50
 let yambModifier = 60
 
-enum Column {
+enum Column: Int, Codable {
     case rowNames
     case down
     case up
@@ -55,7 +55,7 @@ enum Column {
     }
 }
 
-enum Row: Int {
+enum Row: Int, Codable {
     case ones
     case twos
     case threes

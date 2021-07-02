@@ -11,10 +11,16 @@ class YambViewController: UIViewController, UICollectionViewDataSource, UICollec
 
     @IBOutlet var totalScoreLabel: UILabel!
     @IBOutlet var yambCollectionView: UICollectionView!
+    @IBOutlet var topStack: UIStackView!
     
     let columns: [Column] = [.rowNames, .down, .up, .free, .midOut, .outMid, .announce, .disannounce]
     
-    lazy var dataSource = YambDataSource(columns: columns)
+    lazy var dataSource: YambDataSource = {
+        let data = YambDataSource(columns: columns)
+        data.loadScores()
+        
+        return data;
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,11 +106,24 @@ class YambViewController: UIViewController, UICollectionViewDataSource, UICollec
         totalScoreLabel.text = "Total: \(dataSource.totalScore)"
     }
     
+    @IBAction func onNewGame(_ sender: Any) {
+        let alert = UIAlertController(title: "Are you sure you want to abandon the current game and start a new one?", message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self] _ in
+            guard let self = self else { return }
+            
+            self.dataSource.resetScores()
+            self.yambCollectionView.reloadData()
+            self.totalScoreLabel.text = "Total: \(self.dataSource.totalScore)"
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     func didDismiss() {
         if dataSource.isGameEnded {
             let alert = UIAlertController(title: "GAME OVER", message: "TOTAL SCORE: \(dataSource.totalScore)", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "New game", style: .default, handler: { _ in
-                self.dataSource = YambDataSource(columns: self.columns)
+                self.dataSource.resetScores()
                 self.yambCollectionView.reloadData()
                 self.totalScoreLabel.text = "Total: \(self.dataSource.totalScore)"
             }))
