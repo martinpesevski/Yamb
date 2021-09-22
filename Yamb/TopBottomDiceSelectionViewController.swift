@@ -11,6 +11,7 @@ class TopBottomDiceSelectionViewController: UIViewController, UICollectionViewDa
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var clearButton: UIButton!
+    @IBOutlet var addStarSwitch: UISwitch!
     
     var field: Field?
     weak var delegate: DiceSelectionDelegate?
@@ -42,7 +43,7 @@ class TopBottomDiceSelectionViewController: UIViewController, UICollectionViewDa
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let row = field?.row, let data = row.section.nameAndRolls(row: row)[indexPath.section]?[indexPath.row] {
-            delegate?.didSelect(data.1, indexPath: field?.indexPath)
+            delegate?.didSelect(data.1, indexPath: field?.indexPath, hasStar: addStarSwitch.isOn)
             dismiss(animated: true, completion: nil)
         }
     }
@@ -63,6 +64,10 @@ class TopBottomDiceSelectionViewController: UIViewController, UICollectionViewDa
     
     @IBAction func onDone(_ sender: Any) {
         dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func onAddStarValueChanged(_ sender: UISwitch) {
+        field?.hasStar = sender.isSelected
     }
     
     @IBAction func onCancel(_ sender: Any) {

@@ -33,6 +33,7 @@ class YambViewController: UIViewController, UICollectionViewDataSource, UICollec
         flowLayout.itemSize = CGSize(width: (UIScreen.main.bounds.width/CGFloat(columns.count)) - 3, height: 45)
         flowLayout.sectionInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
         yambCollectionView.collectionViewLayout = flowLayout;
+        yambCollectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -74,8 +75,8 @@ class YambViewController: UIViewController, UICollectionViewDataSource, UICollec
             }
         case .Result:
             var message = ""
-            if indexPath.section == 0 { message = "This shows the sum of the above column. If the sum is equal to or greater than 60, you will get 30 extra points"}
-            else if indexPath.section == 1 { message = "This shows the result of the above column. It is calculated by subtracting the Min from the Max and multiplying the result by the number of Ones. If the result is equal to or greater than 60, you will get 30 extra points" }
+            if indexPath.section == 0 { message = "This shows the sum of the above column.\n\n If the sum is equal to or greater than 60, you will get 30 extra points"}
+            else if indexPath.section == 1 { message = "This shows the result of the above column.\n\n It is calculated by subtracting the Min from the Max and multiplying the result by the number of Ones.\n\n If the result is equal to or greater than 60, you will get 30 extra points" }
             else if indexPath.section == 2 { message = "This shows the sum of the above column" }
             
             let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
@@ -86,15 +87,16 @@ class YambViewController: UIViewController, UICollectionViewDataSource, UICollec
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             present(alert, animated: true, completion: nil)
         case .RowName:
-            let alert = UIAlertController(title: nil, message: field.row?.description, preferredStyle: .alert)
+            guard let description = field.row?.description else { return }
+            let alert = UIAlertController(title: nil, message: description, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             present(alert, animated: true, completion: nil)
         }
     }
     
-    func didSelect(_ diceRolls: [DiceRoll], indexPath: IndexPath?) {
+    func didSelect(_ diceRolls: [DiceRoll], indexPath: IndexPath?, hasStar: Bool) {
         guard let indexPath = indexPath else { return }
-        dataSource.setScore(diceRolls: diceRolls, indexPath: indexPath)
+        dataSource.setScore(diceRolls: diceRolls, indexPath: indexPath, hasStar: hasStar)
         yambCollectionView.reloadData()
         totalScoreLabel.text = "Total: \(dataSource.totalScore)"
     }

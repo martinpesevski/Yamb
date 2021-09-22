@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -16,15 +16,12 @@
 		C798F6D9259E4FB400511286 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C798F6D7259E4FB400511286 /* LaunchScreen.storyboard */; };
 		C798F6E325A4B94200511286 /* YambCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C798F6E225A4B94200511286 /* YambCell.swift */; };
 		C798F6E625A4BC8800511286 /* CellEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = C798F6E525A4BC8800511286 /* CellEnums.swift */; };
+		C7E4EEC426EBD38600890C42 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = C7E4EEC326EBD38600890C42 /* SnapKit */; };
 		C7FEC90F25A5F69D0021BBEE /* MinMaxDiceSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FEC90E25A5F69D0021BBEE /* MinMaxDiceSelectionViewController.swift */; };
 		C7FEC91325A733A70021BBEE /* YambDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FEC91225A733A70021BBEE /* YambDataSource.swift */; };
-		E4FDA77C9C4236E3ACE4A31A /* Pods_Yamb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02FAFAD121873F3F6B11BD20 /* Pods_Yamb.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		02FAFAD121873F3F6B11BD20 /* Pods_Yamb.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Yamb.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		33ABF3E6F290DDA06ED42583 /* Pods-Yamb.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yamb.release.xcconfig"; path = "Target Support Files/Pods-Yamb/Pods-Yamb.release.xcconfig"; sourceTree = "<group>"; };
-		568189D519DF34EF31B3FE7F /* Pods-Yamb.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yamb.debug.xcconfig"; path = "Target Support Files/Pods-Yamb/Pods-Yamb.debug.xcconfig"; sourceTree = "<group>"; };
 		C754F84025B1DC3700781E62 /* TopBottomDiceSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBottomDiceSelectionViewController.swift; sourceTree = "<group>"; };
 		C798F6C9259E4FB100511286 /* Yamb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yamb.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C798F6CC259E4FB100511286 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -45,37 +42,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E4FDA77C9C4236E3ACE4A31A /* Pods_Yamb.framework in Frameworks */,
+				C7E4EEC426EBD38600890C42 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		703F1E3ED2EB0C95FD518A8A /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				02FAFAD121873F3F6B11BD20 /* Pods_Yamb.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		9C2010594EED9885B3E69230 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				568189D519DF34EF31B3FE7F /* Pods-Yamb.debug.xcconfig */,
-				33ABF3E6F290DDA06ED42583 /* Pods-Yamb.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		C798F6C0259E4FB100511286 = {
 			isa = PBXGroup;
 			children = (
 				C798F6CB259E4FB100511286 /* Yamb */,
 				C798F6CA259E4FB100511286 /* Products */,
-				9C2010594EED9885B3E69230 /* Pods */,
-				703F1E3ED2EB0C95FD518A8A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -113,17 +91,18 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C798F6DD259E4FB400511286 /* Build configuration list for PBXNativeTarget "Yamb" */;
 			buildPhases = (
-				7CB38A8B3BED5894FD03CE38 /* [CP] Check Pods Manifest.lock */,
 				C798F6C5259E4FB100511286 /* Sources */,
 				C798F6C6259E4FB100511286 /* Frameworks */,
 				C798F6C7259E4FB100511286 /* Resources */,
-				41280F7BC64D2F706C398473 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = Yamb;
+			packageProductDependencies = (
+				C7E4EEC326EBD38600890C42 /* SnapKit */,
+			);
 			productName = Yamb;
 			productReference = C798F6C9259E4FB100511286 /* Yamb.app */;
 			productType = "com.apple.product-type.application";
@@ -151,6 +130,9 @@
 				Base,
 			);
 			mainGroup = C798F6C0259E4FB100511286;
+			packageReferences = (
+				C7E4EEC226EBD38600890C42 /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = C798F6CA259E4FB100511286 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -172,48 +154,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		41280F7BC64D2F706C398473 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Yamb/Pods-Yamb-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Yamb/Pods-Yamb-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Yamb/Pods-Yamb-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7CB38A8B3BED5894FD03CE38 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Yamb-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		C798F6C5259E4FB100511286 /* Sources */ = {
@@ -371,41 +311,39 @@
 		};
 		C798F6DE259E4FB400511286 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 568189D519DF34EF31B3FE7F /* Pods-Yamb.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 73B4229N3R;
+				DEVELOPMENT_TEAM = 3389RHNLVA;
 				INFOPLIST_FILE = Yamb/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.MP.Yamb;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wolfware.yamb;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		C798F6DF259E4FB400511286 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 33ABF3E6F290DDA06ED42583 /* Pods-Yamb.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 73B4229N3R;
+				DEVELOPMENT_TEAM = 3389RHNLVA;
 				INFOPLIST_FILE = Yamb/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.MP.Yamb;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wolfware.yamb;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -431,6 +369,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C7E4EEC226EBD38600890C42 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C7E4EEC326EBD38600890C42 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C7E4EEC226EBD38600890C42 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C798F6C1259E4FB100511286 /* Project object */;
 }

@@ -7,8 +7,8 @@
 
 import UIKit
 
-protocol DiceSelectionDelegate: class {
-    func didSelect(_ diceRolls: [DiceRoll], indexPath: IndexPath?)
+protocol DiceSelectionDelegate: AnyObject {
+    func didSelect(_ diceRolls: [DiceRoll], indexPath: IndexPath?, hasStar: Bool)
     func didClear(indexPath: IndexPath?)
     func didDismiss()
 }
@@ -70,7 +70,7 @@ class MinMaxDiceSelectionViewController: UIViewController, UICollectionViewDataS
             present(alert, animated: true, completion: nil)
             return
         }
-        delegate?.didSelect(diceRolls, indexPath: field?.indexPath)
+        delegate?.didSelect(diceRolls, indexPath: field?.indexPath, hasStar: false)
         dismiss(animated: true) {
             self.delegate?.didDismiss()
         }

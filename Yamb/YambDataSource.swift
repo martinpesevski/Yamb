@@ -159,12 +159,12 @@ class YambDataSource {
         return 0
     }
     
-    func setScore(diceRolls: [DiceRoll], indexPath: IndexPath) {
+    func setScore(diceRolls: [DiceRoll], indexPath: IndexPath, hasStar: Bool) {
         guard let row = fieldsDict[indexPath.section]?[indexPath.item].row else { return }
         let column = columns.columnFrom(indexPath: indexPath)
         if let field = fieldsDict[indexPath.section]?[indexPath.item] {
             field.score = row.calculate(diceRolls: diceRolls)
-            field.hasStar = field.row != .yamb && diceRolls.hasStar
+            field.hasStar = hasStar || (field.row != .yamb && diceRolls.hasStar)
             lastPlayedField = field
         }
         scoreField(column: column, section: indexPath.section)?.score = columnResult(column: column, section: indexPath.section)
